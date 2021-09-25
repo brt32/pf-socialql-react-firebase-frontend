@@ -4,17 +4,8 @@ import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { auth, googleAuthProvider } from "../../firebase";
 import { useMutation } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
 import AuthForm from "../../components/forms/AuthForm";
-
-const USER_CREATE = gql`
-  mutation userCreate {
-    userCreate {
-      username
-      email
-    }
-  }
-`;
+import { USER_CREATE } from "../../graphql/mutations";
 
 const Login = () => {
   const { dispatch } = useContext(AuthContext);
@@ -42,7 +33,7 @@ const Login = () => {
             payload: { email: user.email, token: idTokenResult.token },
           });
           userCreate();
-          history.push("/");
+          history.push("/profile");
         });
     } catch (error) {
       console.log(error);
@@ -61,7 +52,7 @@ const Login = () => {
         payload: { email: user.email, token: idTokenResult.token },
       });
       userCreate();
-      history.push("/");
+      history.push("/profile");
     });
   };
 
@@ -81,6 +72,14 @@ const Login = () => {
       <button className="btn btn-raised btn-danger mt-3" onClick={googleLogin}>
         Login with Google
       </button>
+      <div>
+        <Link
+          className="text-danger d-flex justify-content-end"
+          to="/password/forgot"
+        >
+          Forgot Password
+        </Link>
+      </div>
     </div>
   );
 };

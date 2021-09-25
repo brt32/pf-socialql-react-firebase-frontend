@@ -2,6 +2,7 @@ import React, { useContext, Fragment } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { auth } from "../firebase";
 import { AuthContext } from "../context/authContext";
+import Search from "./Search";
 
 const Nav = () => {
   const { state, dispatch } = useContext(AuthContext);
@@ -22,7 +23,7 @@ const Nav = () => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          Navbar
+          SocialQL
         </Link>
         <button
           className="navbar-toggler"
@@ -37,6 +38,11 @@ const Nav = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link active" aria-current="page" to="/users">
+                Users
+              </Link>
+            </li>
             {!user && (
               <Fragment>
                 <li className="nav-item">
@@ -60,28 +66,32 @@ const Nav = () => {
               </Fragment>
             )}
             {user && (
-              <li className="nav-item">
-                <a onClick={logout} href="/login" className="nav-link nav-item">
-                  Logout
-                </a>
-              </li>
+              <>
+                <li className="nav-item">
+                  <Link
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/profile"
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <a
+                    onClick={logout}
+                    href="/login"
+                    className="nav-link nav-item"
+                  >
+                    Logout
+                  </a>
+                </li>
+              </>
             )}
           </ul>
-          <form className="d-flex input-group w-auto">
-            <input
-              type="search"
-              className="form-control"
-              placeholder="Type query"
-              aria-label="Search"
-            />
-            <button
-              className="btn btn-outline-primary"
-              type="button"
-              data-mdb-ripple-color="dark"
-            >
-              Search
-            </button>
-          </form>
+
+          <div className="ml-auto">
+            <Search />
+          </div>
         </div>
       </div>
     </nav>
